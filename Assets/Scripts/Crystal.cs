@@ -11,6 +11,7 @@ public class Crystal : MonoBehaviour
     private Vector3 _endPosition;
     private Vector3 _currentDestinationPosition;
     private SpriteRenderer _spriteRenderer;
+    private AudioSource _audioSource;
     private bool _isContinue;
 
     private void Start()
@@ -18,8 +19,10 @@ public class Crystal : MonoBehaviour
         _startPosition = new Vector3(0f,0f,0f) + transform.position;
         _endPosition = new Vector3(0f,-0.3f,0f) + transform.position;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
         _isContinue = true;
         StartCoroutine(DetectEnemy());
+        _audioSource.Play();
     }
 
     private void Update()
@@ -30,15 +33,13 @@ public class Crystal : MonoBehaviour
             _currentDestinationPosition = _startPosition;
 
         MoveTowardsTarget(_currentDestinationPosition);
-        DetectEnemy();
     }
 
     private IEnumerator DetectEnemy()
     {
         while (_isContinue)
         {
-            AlertByColor();
-            AlertBySound();
+            Alert();
             yield return null;
         }
     }
@@ -49,23 +50,27 @@ public class Crystal : MonoBehaviour
         transform.position = moveVector;
     }
 
-    private void AlertByColor()
+    private void Alert()
     {
         GameObject[] ennemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         if (ennemies.Length == 0)
         {
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            _audioSource.volume = 0f;
         }
         else
         {
             float minDistance = ennemies.Select(x => Mathf.Abs((x.transform.position - transform.position).magnitude)).Min();
-            _spriteRenderer.color = new Color(1f, minDistance / 2, minDistance / 2, 1f);
+            _spriteRenderer.color = new Color(1f, minDistance / 2, minDistance / 2, 1f); 
+
+            if(minDistance < 1)
+                _audioSource.volume = 1f;
+            else
+                _audioSource.volume = 1/minDistance;     
         }
     }
 
-    private void AlertBySound()
-    {
-    }
+    
 
 }

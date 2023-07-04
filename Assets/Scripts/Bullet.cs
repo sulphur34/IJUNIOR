@@ -4,8 +4,8 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private bool _isTurnLeft;
-    GameObject _shooter;
 
+    private GameObject _shooter;
     private Rigidbody2D _rigidbody;
 
     private void Awake()
@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    private void Start()
     {
         _shooter = GameObject.Find("Kyle Blackthorne");
         float speed = _speed;

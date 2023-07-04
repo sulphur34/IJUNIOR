@@ -15,14 +15,15 @@ public class GragOhr : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void Update() 
     {
+        float shootingRange = 3f;
         if (_isDead == false)
         {
             float distance = (_target.position - transform.position).magnitude;
             _animator.SetFloat("ShootRange", distance);
 
-            if (distance > 3)
+            if (distance > shootingRange)
                 MoveTowardsTarget();
             else
                 _animator.SetFloat("moveX", 0);
@@ -39,6 +40,7 @@ public class GragOhr : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         float bulletforce = 10f;
+        float timeToDestroy = 3;
         collision.gameObject.GetComponent<Rigidbody>();
         Vector3 impactForce = collision.relativeVelocity;
 
@@ -46,7 +48,7 @@ public class GragOhr : MonoBehaviour
         {
             _animator.SetTrigger("Dead");
             _isDead = true;
-            Destroy(gameObject, 5);
+            Destroy(gameObject, timeToDestroy);
         }
     }
 }

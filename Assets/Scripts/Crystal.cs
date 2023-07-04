@@ -16,8 +16,9 @@ public class Crystal : MonoBehaviour
 
     private void Start()
     {
+        float floatingDistance = -0.3f;
         _startPosition = new Vector3(0f,0f,0f) + transform.position;
-        _endPosition = new Vector3(0f,-0.3f,0f) + transform.position;
+        _endPosition = new Vector3(0f,floatingDistance, 0f) + transform.position;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
         _isContinue = true;
@@ -62,15 +63,20 @@ public class Crystal : MonoBehaviour
         else
         {
             float minDistance = ennemies.Select(x => Mathf.Abs((x.transform.position - transform.position).magnitude)).Min();
-            _spriteRenderer.color = new Color(1f, minDistance / 2, minDistance / 2, 1f); 
+            _spriteRenderer.color = ConvertDistanceToColor(minDistance);
 
-            if(minDistance < 1)
+            if (minDistance < 1)
                 _audioSource.volume = 1f;
             else
                 _audioSource.volume = 1/minDistance;     
         }
     }
 
-    
+    private Color ConvertDistanceToColor(float distance)
+    {
+        float koefficient = 2f;
+        float channelValue = distance / koefficient;
+        return new Color(1f, channelValue, channelValue, 1f);
+    }
 
 }

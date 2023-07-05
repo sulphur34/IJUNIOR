@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class Shoot : MonoBehaviour
 {
     [SerializeField] private GameObject _bullet;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Barrel : MonoBehaviour
 {
     private Animator _animator;

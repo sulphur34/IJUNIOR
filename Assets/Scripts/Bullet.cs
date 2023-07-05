@@ -1,11 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private bool _isTurnLeft;
 
-    private GameObject _shooter;
     private Rigidbody2D _rigidbody;
 
     private void Awake()
@@ -15,10 +17,9 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        _shooter = GameObject.Find("Kyle Blackthorne");
         float speed = _speed;
 
-        if (_shooter.GetComponent<SpriteRenderer>().flipX == _isTurnLeft)
+        if (gameObject.GetComponent<SpriteRenderer>().flipX == _isTurnLeft)
             speed *= -1;
         
         _rigidbody.velocity = transform.right * speed;
